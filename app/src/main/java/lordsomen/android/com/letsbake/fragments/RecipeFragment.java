@@ -58,11 +58,12 @@ public class RecipeFragment extends Fragment implements RecipesAdapter.StepSelec
     }
 
     @Override
-    public void onStepSelected(Step step) {
+    public void onStepSelected(Step step,int position) {
         Intent recipeIntent = new Intent(getActivity().getApplicationContext(), StepDetailsActivity.class);
         Bundle mBundle = new Bundle();
-        mBundle.putParcelable(Step.RECIPE_STEPS, step);
+//        mBundle.putParcelable(Step.RECIPE_STEPS, step);
         mBundle.putParcelable(BakingData.BAKINGDATA, mBakingData);
+        mBundle.putInt(Step.POSITION,position);
         recipeIntent.putExtras(mBundle);
         startActivity(recipeIntent);
     }

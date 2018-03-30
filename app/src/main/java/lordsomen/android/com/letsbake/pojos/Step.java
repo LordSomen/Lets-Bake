@@ -13,6 +13,7 @@ import com.google.gson.annotations.SerializedName;
 public class Step implements Parcelable{
 
     public static final String RECIPE_STEPS = "steps_details";
+    public static final String POSITION = "step_position";
 
     @SerializedName("id")
     @Expose

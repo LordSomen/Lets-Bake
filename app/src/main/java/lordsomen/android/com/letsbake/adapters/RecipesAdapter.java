@@ -55,7 +55,7 @@ public class RecipesAdapter extends RecyclerView.Adapter<RecipesAdapter.RecipesA
     }
 
     public interface StepSelector {
-        void onStepSelected(Step step);
+        void onStepSelected(Step step,int position);
     }
 
     public class RecipesAdapterViewHolder extends  RecyclerView.ViewHolder implements View.OnClickListener{
@@ -71,7 +71,7 @@ public class RecipesAdapter extends RecyclerView.Adapter<RecipesAdapter.RecipesA
 
         @Override
         public void onClick(View v) {
-            mStepSelector.onStepSelected(mRecipesList.get(getAdapterPosition()));
+            mStepSelector.onStepSelected(mRecipesList.get(getAdapterPosition()),getAdapterPosition());
 
         }
     }

@@ -24,7 +24,7 @@ public class StepDetailsActivity extends AppCompatActivity implements ViewPager.
     ViewPager mViewPager;
     private BakingData mBakingData;
     private List<Step> mStepList;
-    private Step step;
+//    private Step step;
     private StepSlideAdapter mPagerAdapter;
 
     @Override
@@ -33,9 +33,11 @@ public class StepDetailsActivity extends AppCompatActivity implements ViewPager.
         setContentView(R.layout.activity_step_details);
         ButterKnife.bind(this);
         Bundle bundle = getIntent().getExtras();
+        int position=0;
         if (null != bundle) {
-            step = bundle.getParcelable(Step.RECIPE_STEPS);
+//            step = bundle.getParcelable(Step.RECIPE_STEPS);
             mBakingData = bundle.getParcelable(BakingData.BAKINGDATA);
+            position = bundle.getInt(Step.POSITION);
             if(null != mBakingData) {
                 mStepList = mBakingData.getSteps();
                 NO_OF_STEPS = mStepList.size();
@@ -43,9 +45,9 @@ public class StepDetailsActivity extends AppCompatActivity implements ViewPager.
         }
         mPagerAdapter = new StepSlideAdapter(getSupportFragmentManager());
         mPagerAdapter.setStepData(mBakingData);
-
         mViewPager.setAdapter(mPagerAdapter);
-//        mViewPager.addOnPageChangeListener(this);
+        mViewPager.setCurrentItem(position);
+        mViewPager.addOnPageChangeListener(this);
     }
 
     @Override

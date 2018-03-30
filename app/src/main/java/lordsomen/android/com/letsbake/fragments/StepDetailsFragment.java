@@ -19,6 +19,7 @@ import lordsomen.android.com.letsbake.pojos.Step;
 
 public class StepDetailsFragment extends Fragment {
 
+    public static final String VAL = "val";
     @BindView(R.id.fragment_step_description)
     public TextView stepDescription;
     @BindView(R.id.fragment_video_url)
@@ -31,7 +32,7 @@ public class StepDetailsFragment extends Fragment {
         // Supply val input as an argument. 
 
         Bundle args = new Bundle();
-        args.putParcelable("val", step);
+        args.putParcelable(VAL, step);
         stepDetailsFragment.setArguments(args);
         return stepDetailsFragment;
     }
@@ -39,7 +40,7 @@ public class StepDetailsFragment extends Fragment {
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        stepData = getArguments().getParcelable("val");
+        stepData = getArguments().getParcelable(VAL);
     }
 
     @Nullable
