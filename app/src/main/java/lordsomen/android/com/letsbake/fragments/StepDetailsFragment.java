@@ -2,6 +2,7 @@ package lordsomen.android.com.letsbake.fragments;
 
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -56,12 +57,13 @@ public class StepDetailsFragment extends Fragment {
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        if(null != getArguments())
         stepData = getArguments().getParcelable(VAL);
     }
 
     @Nullable
     @Override
-    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container,
+    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_step_details,container,false);
         ButterKnife.bind(this,rootView);
@@ -83,11 +85,13 @@ public class StepDetailsFragment extends Fragment {
             stepPlayerView.setPlayer(player);
             // Produces DataSource instances through which media data is loaded.
             String userAgent = Util.getUserAgent(getContext(), "ClassicalMusicQuiz");
-            MediaSource mediaSource = new ExtractorMediaSource(Uri.parse(videoUrl), new DefaultDataSourceFactory(
-                    getContext(), userAgent), new DefaultExtractorsFactory(), null, null);
+            if (null != getContext()){
+                MediaSource mediaSource = new ExtractorMediaSource(Uri.parse(videoUrl), new DefaultDataSourceFactory(
+                        getContext(), userAgent), new DefaultExtractorsFactory(), null, null);
             // Prepare the player with the source.
             player.prepare(mediaSource);
             player.setPlayWhenReady(true);
+            }
         }
     }
 

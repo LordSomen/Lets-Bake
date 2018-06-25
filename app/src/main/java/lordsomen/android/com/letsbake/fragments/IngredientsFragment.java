@@ -39,17 +39,23 @@ public class IngredientsFragment extends Fragment {
 
         View view = inflater.inflate(R.layout.fragments_ingredients,container,false);
         ButterKnife.bind(this,view);
-        BakingData bakingData = getArguments().getParcelable(BakingData.BAKINGDATA);
-        mIngredientsAdapter = new IngredientsAdapter(getActivity().getApplicationContext());
-        mRecyclerView.setAdapter(mIngredientsAdapter);
-        mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity().getApplicationContext()
-                ,LinearLayoutManager.VERTICAL,false));
-        if(bakingData!= null) {
-            List<Ingredient> ingredient = bakingData.getIngredients();
-            if(ingredient != null){
-                mIngredientsAdapter.ifDataChanged(ingredient);
+        if(null != getArguments()) {
+            BakingData bakingData = getArguments().getParcelable(BakingData.BAKINGDATA);
+            if(null != getActivity()) {
+                mIngredientsAdapter = new IngredientsAdapter(getActivity().getApplicationContext());
+                mRecyclerView.setAdapter(mIngredientsAdapter);
+                mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity().getApplicationContext()
+                        , LinearLayoutManager.VERTICAL, false));
+                if (bakingData != null) {
+                    List<Ingredient> ingredient = bakingData.getIngredients();
+                    if (ingredient != null) {
+                        mIngredientsAdapter.ifDataChanged(ingredient);
+                    }
+                }
+                return view;
             }
         }
+
         return view;
     }
 }

@@ -43,11 +43,14 @@ public class RecipeFragment extends Fragment implements RecipesAdapter.StepSelec
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_recipe, container, false);
         ButterKnife.bind(this, view);
+        if(null != getArguments() )
         mBakingData = getArguments().getParcelable(BakingData.BAKINGDATA);
-        mRecipesAdapter = new RecipesAdapter(getActivity().getApplicationContext(), this);
-        mRecyclerView.setAdapter(mRecipesAdapter);
-        mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity().getApplicationContext()
-                , LinearLayoutManager.VERTICAL, false));
+        if(null != getActivity()) {
+            mRecipesAdapter = new RecipesAdapter(getActivity().getApplicationContext(), this);
+            mRecyclerView.setAdapter(mRecipesAdapter);
+            mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity().getApplicationContext()
+                    , LinearLayoutManager.VERTICAL, false));
+        }
         if (mBakingData != null) {
             List<Step> mStepList = mBakingData.getSteps();
             if (mStepList != null) {
