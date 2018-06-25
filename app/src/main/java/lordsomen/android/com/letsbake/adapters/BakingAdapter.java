@@ -1,8 +1,6 @@
 package lordsomen.android.com.letsbake.adapters;
 
 import android.content.Context;
-import android.graphics.Bitmap;
-import android.media.MediaMetadataRetriever;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -11,13 +9,15 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import java.util.HashMap;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
+
 import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import lordsomen.android.com.letsbake.R;
 import lordsomen.android.com.letsbake.pojos.BakingData;
+import lordsomen.android.com.letsbake.utils.GlideApp;
 
 /**
  * Created by soumyajit on 7/3/18.
@@ -48,16 +48,27 @@ public class BakingAdapter extends RecyclerView.Adapter<BakingAdapter.BakingAdap
             String videoUrl = bakingData.getSteps()
                     .get(bakingData.getSteps().size() - 1).getVideoURL();
             Log.d(TAG,"imgUrl" + videoUrl);
-            MediaMetadataRetriever mediaMetadataRetriever = new MediaMetadataRetriever();
-            mediaMetadataRetriever .setDataSource(videoUrl, new HashMap<String, String>());
-            Bitmap bmFrame = mediaMetadataRetriever.getFrameAtTime(10000000); //unit in microsecond
-            holder.mMainItemImageView.setImageBitmap(bmFrame);
+//            MediaMetadataRetriever mediaMetadataRetriever = new MediaMetadataRetriever();
+//            mediaMetadataRetriever .setDataSource(videoUrl, new HashMap<String, String>());
+//            Bitmap bmFrame = mediaMetadataRetriever.getFrameAtTime(10^7); //unit in microsecond
+//            holder.mMainItemImageView.setImageBitmap(bmFrame);
 
 //            Picasso.with(mContext).load(bmFrame.)
 //                    .placeholder(R.drawable.ic_launcher_background)
 //                    .error(R.drawable.ic_launcher_background)
 //                    .into(holder.mMainItemImageView);
-            holder.mRecipeName.setText(bakingData.getName());
+//            BitmapPool bitmapPool = Glide.get(mContext).getBitmapPool();
+//            int microSecond = 6000000;// 6th second as an example
+//            VideoBitmapDecoder videoBitmapDecoder = new VideoBitmapDecoder(microSecond);
+////            FileDescriptorBitmapDecoder fileDescriptorBitmapDecoder = new FileDescriptorBitmapDecoder(videoBitmapDecoder, bitmapPool, DecodeFormat.PREFER_ARGB_8888);
+            GlideApp.with(mContext)
+                    .load(videoUrl)
+                    .diskCacheStrategy(DiskCacheStrategy.ALL)
+                    .into(holder.mMainItemImageView);
+//            holder.mMainItemImageView.setVideoURI(Uri.parse(videoUrl));
+//
+//            holder.mMainItemImageView.seekTo(100);
+//            holder.mRecipeName.setText(bakingData.getName());
         }
     }
 

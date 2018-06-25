@@ -1,4 +1,4 @@
- package lordsomen.android.com.letsbake.activities;
+package lordsomen.android.com.letsbake.activities;
 
 import android.os.Bundle;
 import android.support.v4.view.ViewPager;
@@ -16,10 +16,6 @@ import lordsomen.android.com.letsbake.pojos.Step;
 public class StepDetailsActivity extends AppCompatActivity implements ViewPager.OnPageChangeListener {
 
     public static int NO_OF_STEPS = 1;
-//    @BindView(R.id.fragment_step_description)
-//    TextView stepDescription;
-//    @BindView(R.id.fragment_video_url)
-//    TextView videoDescription;
     @BindView(R.id.step_details_viewpager)
     ViewPager mViewPager;
     private BakingData mBakingData;
