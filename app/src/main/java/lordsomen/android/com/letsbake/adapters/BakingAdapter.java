@@ -6,6 +6,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -93,16 +94,25 @@ public class BakingAdapter extends RecyclerView.Adapter<BakingAdapter.BakingAdap
         ImageView mMainItemImageView;
         @BindView(R.id.main_item_recipe_name)
         TextView mRecipeName;
+        @BindView(R.id.main_item_widget_button)
+        Button mWidgetButton;
 
         public BakingAdapterViewHolder(View itemView) {
             super(itemView);
             ButterKnife.bind(this,itemView);
             itemView.setOnClickListener(this);
+            mWidgetButton.setOnClickListener(this);
         }
+
+
 
         @Override
         public void onClick(View v) {
-            mBakingItemSelector.onBakingItemSelected(mBakingDataList.get(getAdapterPosition()));
+            if(v.getId() == mWidgetButton.getId()){
+
+            }else {
+                mBakingItemSelector.onBakingItemSelected(mBakingDataList.get(getAdapterPosition()));
+            }
         }
     }
 }

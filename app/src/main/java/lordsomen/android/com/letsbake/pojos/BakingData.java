@@ -14,7 +14,7 @@ import java.util.List;
  */
 
 
-public class BakingData implements Parcelable{
+public class BakingData implements Parcelable {
 
     public static final String BAKINGDATA = "baking_data_key";
     @SerializedName("id")
