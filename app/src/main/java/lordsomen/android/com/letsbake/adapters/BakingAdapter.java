@@ -17,6 +17,7 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import lordsomen.android.com.letsbake.R;
+import lordsomen.android.com.letsbake.data.AddToDatabase;
 import lordsomen.android.com.letsbake.pojos.BakingData;
 import lordsomen.android.com.letsbake.utils.GlideApp;
 
@@ -109,7 +110,8 @@ public class BakingAdapter extends RecyclerView.Adapter<BakingAdapter.BakingAdap
         @Override
         public void onClick(View v) {
             if(v.getId() == mWidgetButton.getId()){
-
+                AddToDatabase addToDatabase = new AddToDatabase();
+                addToDatabase.add(mBakingDataList.get(getAdapterPosition()),mContext);
             }else {
                 mBakingItemSelector.onBakingItemSelected(mBakingDataList.get(getAdapterPosition()));
             }

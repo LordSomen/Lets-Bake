@@ -20,7 +20,7 @@ public interface BakingAppDao {
     Cursor selectAll();
 
     @Query("SELECT * FROM baking_data WHERE id =:id")
-    Cursor selectById(int id);
+    Cursor selectById(long id);
 
     @Query("SELECT COUNT(*) FROM baking_data")
     int count();

@@ -6,53 +6,35 @@ import android.arch.persistence.room.PrimaryKey;
 @Entity(tableName = "baking_data")
 public class BakingAppData {
 
+   public static final String TABLE_NAME = "baking_data";
     @PrimaryKey
     private int id;
 
-    private double quantity;
 
-    private String measure;
+    private String ingredients;
 
-    private String ingredient;
+    public BakingAppData(int id, String ingredients) {
 
-    public BakingAppData(int id , double quantity , String measure , String ingredient){
-
-        this.id = id ;
-        this.quantity = quantity ;
-        this.measure = measure ;
-        this.ingredient = ingredient;
+        this.id = id;
+        this.ingredients = ingredients;
 
     }
 
-    public Double getQuantity() {
-        return quantity;
-    }
 
     public int getId() {
         return id;
     }
 
-    public String getIngredient() {
-        return ingredient;
-    }
-
-    public String getMeasure() {
-        return measure;
-    }
 
     public void setId(int id) {
         this.id = id;
     }
 
-    public void setIngredient(String ingredient) {
-        this.ingredient = ingredient;
+    public String getIngredients() {
+        return ingredients;
     }
 
-    public void setMeasure(String measure) {
-        this.measure = measure;
-    }
-
-    public void setQuantity(Double quantity) {
-        this.quantity = quantity;
+    public void setIngredients(String ingredients) {
+        this.ingredients = ingredients;
     }
 }
