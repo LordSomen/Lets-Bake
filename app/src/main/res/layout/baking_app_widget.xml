@@ -5,7 +5,7 @@
 
 
     <ListView
-        android:id="@+id/widget_recipes_list"
+        android:id="@+id/widget_ingredients_list"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
 

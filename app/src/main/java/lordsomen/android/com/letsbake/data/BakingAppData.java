@@ -6,12 +6,12 @@ import android.arch.persistence.room.PrimaryKey;
 @Entity(tableName = "baking_data")
 public class BakingAppData {
 
-   public static final String TABLE_NAME = "baking_data";
+    public static final String TABLE_NAME = "baking_data";
     @PrimaryKey
     private int id;
 
-
     private String ingredients;
+
 
     public BakingAppData(int id, String ingredients) {
 
@@ -37,4 +37,6 @@ public class BakingAppData {
     public void setIngredients(String ingredients) {
         this.ingredients = ingredients;
     }
+
+
 }

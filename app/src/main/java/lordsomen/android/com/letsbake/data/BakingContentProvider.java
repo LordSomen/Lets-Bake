@@ -1,7 +1,6 @@
 package lordsomen.android.com.letsbake.data;
 
 import android.content.ContentProvider;
-import android.content.ContentUris;
 import android.content.ContentValues;
 import android.content.Context;
 import android.content.UriMatcher;
@@ -48,11 +47,11 @@ public class BakingContentProvider extends ContentProvider {
             }
             BakingAppDao bakingAppDao = BakingAppDatabase.getDataInstance(context).BakingAppDao();
             final Cursor cursor;
-            if (code == BAKING_DIR_CODE) {
-                cursor = bakingAppDao.selectAll();
-            } else {
-                cursor = bakingAppDao.selectById(ContentUris.parseId(uri));
-            }
+            int Id = AddToDatabase.CURRENT_ID;
+//            SharedPreferences sharedPreferences = context.getSharedPreferences
+//                    (AddToDatabase.SHARED_PREF,Context.MODE_PRIVATE);
+//            Id = sharedPreferences.getInt(AddToDatabase.ID_,-1);
+            cursor = bakingAppDao.selectById(Id);
             cursor.setNotificationUri(context.getContentResolver(), uri);
             return cursor;
         } else {

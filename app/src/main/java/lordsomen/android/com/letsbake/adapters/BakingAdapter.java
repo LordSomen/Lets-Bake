@@ -111,7 +111,8 @@ public class BakingAdapter extends RecyclerView.Adapter<BakingAdapter.BakingAdap
         public void onClick(View v) {
             if(v.getId() == mWidgetButton.getId()){
                 AddToDatabase addToDatabase = new AddToDatabase();
-                addToDatabase.add(mBakingDataList.get(getAdapterPosition()),mContext);
+                addToDatabase.add(mBakingDataList
+                        .get(getAdapterPosition()),mContext);
             }else {
                 mBakingItemSelector.onBakingItemSelected(mBakingDataList.get(getAdapterPosition()));
             }
