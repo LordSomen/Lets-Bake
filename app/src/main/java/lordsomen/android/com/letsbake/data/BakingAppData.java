@@ -7,6 +7,9 @@ import android.arch.persistence.room.PrimaryKey;
 public class BakingAppData {
 
     public static final String TABLE_NAME = "baking_data";
+    public static final String COLUMN_INGREDIENTS = "ingredients";
+    public static final String COLUMN_ID_ = "id";
+
     @PrimaryKey
     private int id;
 

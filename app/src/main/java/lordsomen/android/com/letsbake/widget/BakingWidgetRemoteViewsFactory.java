@@ -16,6 +16,7 @@ import java.lang.reflect.Type;
 import java.util.List;
 
 import lordsomen.android.com.letsbake.R;
+import lordsomen.android.com.letsbake.data.BakingAppData;
 import lordsomen.android.com.letsbake.data.BakingContentProvider;
 import lordsomen.android.com.letsbake.pojos.Ingredient;
 
@@ -26,6 +27,12 @@ public class BakingWidgetRemoteViewsFactory implements RemoteViewsService.Remote
     private Cursor mCursor;
 
     private List<Ingredient> ingredientList;
+//    @BindView(R.id.widget_progress_bar)
+//    ProgressBar mProgressBar;
+//    @BindView(R.id.widget_error_textView)
+//    TextView mErrorTextView;
+//    @BindView(R.id.widget_ingredients_list)
+//    ListView mListView;
 
     public BakingWidgetRemoteViewsFactory(Context applicationContext, Intent intent) {
 
@@ -54,9 +61,9 @@ public class BakingWidgetRemoteViewsFactory implements RemoteViewsService.Remote
     @Override
     public void onDataSetChanged() {
 
-        if (mCursor != null) {
-            mCursor.close();
-        }
+//        if (mCursor != null) {
+//            mCursor.close();
+//        }
 
         final long identityToken = Binder.clearCallingIdentity();
         Uri uri = BakingContentProvider.bakingUri;
@@ -65,13 +72,19 @@ public class BakingWidgetRemoteViewsFactory implements RemoteViewsService.Remote
                 null,
                 null,
                 null);
-        mCursor.moveToFirst();
-        String mData = mCursor.getString(mCursor.getColumnIndex("ingredients"));
-        Type type = new TypeToken<List<Ingredient>>() {
-        }.getType();
-        Gson gson = new Gson();
-        ingredientList = gson.fromJson(mData, type);
-        Binder.restoreCallingIdentity(identityToken);
+        if (null != mCursor) {
+//            mCursor.moveToFirst();
+            int i = mCursor.getPosition();
+            int count = mCursor.getColumnCount();
+            int countr = mCursor.getCount();
+            mCursor.moveToPosition(0);
+            String mData = mCursor.getString(mCursor.getColumnIndex(BakingAppData.COLUMN_INGREDIENTS));
+            Type type = new TypeToken<List<Ingredient>>() {
+            }.getType();
+            Gson gson = new Gson();
+            ingredientList = gson.fromJson(mData, type);
+            Binder.restoreCallingIdentity(identityToken);
+        }
     }
 
     @Override
@@ -83,7 +96,9 @@ public class BakingWidgetRemoteViewsFactory implements RemoteViewsService.Remote
 
     @Override
     public int getCount() {
-        return mCursor == null ? 0 : mCursor.getCount();
+        if(ingredientList != null){
+            return ingredientList.size();
+        }else return 0;
     }
 
     @Override
@@ -115,11 +130,52 @@ public class BakingWidgetRemoteViewsFactory implements RemoteViewsService.Remote
 
     @Override
     public long getItemId(int position) {
-        return mCursor.moveToPosition(position) ? mCursor.getLong(0) : position;
+       // return mCursor.moveToPosition(position) ? mCursor.getLong(0) : position;
+        return position;
     }
 
     @Override
     public boolean hasStableIds() {
         return true;
     }
+
+//    private  class DownloadFilesTask extends AsyncTask<Void, Cursor, Cursor> {
+//
+//
+//        @Override
+//        protected void onPreExecute() {
+//
+//        }
+//
+//        @Override
+//        protected Cursor doInBackground(Void... voids) {
+//            Uri uri = BakingContentProvider.bakingUri;
+//
+//            try {
+//                mCursor = mContext.getContentResolver().query(uri,
+//                        null,
+//                        null,
+//                        null,
+//                        null);
+//            } catch (Exception e) {
+//                e.printStackTrace();
+//            }
+//            return mCursor;
+//        }
+//
+//        @Override
+//        protected void onPostExecute(Cursor cursor) {
+//            super.onPostExecute(cursor);
+//            if (cursor != null) {
+//                onDataSetChanged();
+//                getCount();
+//            }
+//
+//        }
+//
+//        @Override
+//        protected void onCancelled() {
+//            super.onCancelled();
+//        }
+//    }
 }
