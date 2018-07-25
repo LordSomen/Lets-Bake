@@ -1,6 +1,8 @@
 package lordsomen.android.com.letsbake.adapters;
 
 import android.content.Context;
+import android.content.SharedPreferences;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -13,6 +15,7 @@ import android.widget.TextView;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 
 import java.util.List;
+import java.util.Map;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -28,6 +31,9 @@ import lordsomen.android.com.letsbake.utils.GlideApp;
 public class BakingAdapter extends RecyclerView.Adapter<BakingAdapter.BakingAdapterViewHolder> {
 
     private static final String TAG = BakingAdapter.class.getSimpleName();
+    private static final String SHARED_PREF_BUTTON = "shared_pref_button";
+    private static final String POS = "position";
+
     private List<BakingData> mBakingDataList;
     private Context mContext;
     private BakingItemSelector mBakingItemSelector;
@@ -50,27 +56,22 @@ public class BakingAdapter extends RecyclerView.Adapter<BakingAdapter.BakingAdap
             String videoUrl = bakingData.getSteps()
                     .get(bakingData.getSteps().size() - 1).getVideoURL();
             Log.d(TAG,"imgUrl" + videoUrl);
-//            MediaMetadataRetriever mediaMetadataRetriever = new MediaMetadataRetriever();
-//            mediaMetadataRetriever .setDataSource(videoUrl, new HashMap<String, String>());
-//            Bitmap bmFrame = mediaMetadataRetriever.getFrameAtTime(10^7); //unit in microsecond
-//            holder.mMainItemImageView.setImageBitmap(bmFrame);
 
-//            Picasso.with(mContext).load(bmFrame.)
-//                    .placeholder(R.drawable.ic_launcher_background)
-//                    .error(R.drawable.ic_launcher_background)
-//                    .into(holder.mMainItemImageView);
-//            BitmapPool bitmapPool = Glide.get(mContext).getBitmapPool();
-//            int microSecond = 6000000;// 6th second as an example
-//            VideoBitmapDecoder videoBitmapDecoder = new VideoBitmapDecoder(microSecond);
-////            FileDescriptorBitmapDecoder fileDescriptorBitmapDecoder = new FileDescriptorBitmapDecoder(videoBitmapDecoder, bitmapPool, DecodeFormat.PREFER_ARGB_8888);
             GlideApp.with(mContext)
                     .load(videoUrl)
                     .diskCacheStrategy(DiskCacheStrategy.ALL)
                     .into(holder.mMainItemImageView);
-//            holder.mMainItemImageView.setVideoURI(Uri.parse(videoUrl));
-//
-//            holder.mMainItemImageView.seekTo(100);
-//            holder.mRecipeName.setText(bakingData.getName());
+
+            holder.mRecipeName.setText(bakingData.getName());
+            SharedPreferences sharedPreferences = mContext.getSharedPreferences(SHARED_PREF_BUTTON
+                    , Context.MODE_PRIVATE);
+            if(sharedPreferences.contains(POS+position)){
+                holder.mWidgetButton.setBackground(ContextCompat
+                        .getDrawable(mContext, R.drawable.button_shape_filled));
+            }else {
+                holder.mWidgetButton.setBackground(ContextCompat
+                        .getDrawable(mContext, R.drawable.button_shape));
+            }
         }
     }
 
@@ -106,10 +107,26 @@ public class BakingAdapter extends RecyclerView.Adapter<BakingAdapter.BakingAdap
         }
 
 
-
         @Override
         public void onClick(View v) {
             if(v.getId() == mWidgetButton.getId()){
+                SharedPreferences sharedPreferences = mContext.getSharedPreferences(SHARED_PREF_BUTTON
+                        , Context.MODE_PRIVATE);
+                if (!sharedPreferences.contains(POS + getAdapterPosition())) {
+                    SharedPreferences.Editor editor = sharedPreferences.edit();
+                    Map<String, ?> allEntries = sharedPreferences.getAll();
+                    int pos = -1;
+                    for (Map.Entry<String, ?> entry : allEntries.entrySet()) {
+                        String posS = entry.getValue().toString();
+                        pos = Integer.parseInt(posS);
+                        notifyItemChanged(pos);
+                    }
+                    editor.clear();
+                    editor.putInt(POS + getAdapterPosition(), getAdapterPosition());
+                    editor.apply();
+                    mWidgetButton.setBackground(ContextCompat
+                            .getDrawable(mContext, R.drawable.button_shape_filled));
+                }
                 AddToDatabase addToDatabase = new AddToDatabase();
                 addToDatabase.add(mBakingDataList
                         .get(getAdapterPosition()),mContext);

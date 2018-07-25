@@ -2,7 +2,6 @@ package lordsomen.android.com.letsbake.data;
 
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.widget.Toast;
 
 import com.google.gson.Gson;
 
@@ -54,9 +53,6 @@ public class AddToDatabase {
                     bakingAppDatabase.BakingAppDao().insert(bakingAppData);
                 }
             });
-            Toast.makeText(context, "Inserted", Toast.LENGTH_SHORT).show();
-        }else {
-            Toast.makeText(context, "Already Inserted", Toast.LENGTH_SHORT).show();
         }
     }
 }
