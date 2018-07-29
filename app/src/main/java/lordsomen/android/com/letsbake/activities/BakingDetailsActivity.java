@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -20,11 +21,17 @@ public class BakingDetailsActivity extends AppCompatActivity {
     TabLayout mTabLayout;
     @BindView(R.id.baking_details_viewpager)
     ViewPager mViewPager;
+    @BindView(R.id.toolbar_baking_details)
+    Toolbar toolbar;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_baking_details);
         ButterKnife.bind(this);
+        if(null != toolbar){
+            setSupportActionBar(toolbar);
+            toolbar.setTitle(getResources().getString(R.string.app_name));
+        }
         ViewPagerAdapter viewPagerAdapter = new ViewPagerAdapter(getSupportFragmentManager());
         IngredientsFragment ingredientsFragment = new IngredientsFragment();
         RecipeFragment recipeFragment = new RecipeFragment();

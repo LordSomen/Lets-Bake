@@ -39,7 +39,7 @@ public class IngredientsAdapter extends RecyclerView.Adapter<IngredientsAdapter.
         if(ingredient != null){
             holder.ingredientsNameTextView.setText(ingredient.getIngredient());
             holder.ingredientsQuantityTextView
-                    .setText(ingredient.getQuantity() + ingredient.getMeasure());
+                    .setText(ingredient.getQuantity() + "  "+ingredient.getMeasure());
         }
     }
 

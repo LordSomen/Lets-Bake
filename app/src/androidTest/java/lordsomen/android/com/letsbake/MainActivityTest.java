@@ -1,6 +1,5 @@
 package lordsomen.android.com.letsbake;
 
-import android.support.test.espresso.assertion.ViewAssertions;
 import android.support.test.espresso.contrib.RecyclerViewActions;
 import android.support.test.espresso.matcher.ViewMatchers;
 import android.support.test.filters.LargeTest;
@@ -15,6 +14,8 @@ import lordsomen.android.com.letsbake.activities.MainActivity;
 
 import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.action.ViewActions.click;
+import static android.support.test.espresso.assertion.ViewAssertions.matches;
+import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
 
 
 @RunWith(AndroidJUnit4.class)
@@ -40,19 +41,21 @@ public class MainActivityTest {
     }
 
     @Test
-    public  void scrollAndTapRecyclerViewItem() {
+    public  void scrollRecyclerViewItem() {
         onView(ViewMatchers.withId(recyclerViewId)).perform(RecyclerViewActions.scrollToPosition(3));
 //        onView(withRecyclerView(recyclerViewId).atPosition(position)).perform(click());
     }
 
     @Test
-    public void allItemsDisplayed(){
-        onView(withRecyclerView(recyclerViewId)
-                .atPositionOnView(1, R.id.main_item_widget_button))
-                .check(ViewAssertions.matches(ViewMatchers.isDisplayed()));
+    public void allItemsDisplayed()  {
+
+
         onView(withRecyclerView(recyclerViewId)
                 .atPositionOnView(1, R.id.main_item_thumbnail_image))
-                .check(ViewAssertions.matches(ViewMatchers.isDisplayed()));
+                .check(matches(isDisplayed()));
+        onView(withRecyclerView(recyclerViewId)
+                .atPositionOnView(1, R.id.main_item_recipe_name))
+                .check(matches(isDisplayed()));
 
     }
 

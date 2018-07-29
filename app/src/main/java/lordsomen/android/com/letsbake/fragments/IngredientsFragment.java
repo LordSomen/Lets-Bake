@@ -1,6 +1,8 @@
 package lordsomen.android.com.letsbake.fragments;
 
 import android.os.Bundle;
+import android.os.Parcelable;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
@@ -24,9 +26,11 @@ import lordsomen.android.com.letsbake.pojos.Ingredient;
 
 public class IngredientsFragment extends Fragment {
 
+    private static final String SAVED_LAYOUT_MANAGER = "layout-manager-state";
     @BindView(R.id.frag_ingredients_recycler_view)
     RecyclerView mRecyclerView;
     private IngredientsAdapter mIngredientsAdapter;
+    private Parcelable onSavedInstanceState = null;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -46,10 +50,16 @@ public class IngredientsFragment extends Fragment {
                 mRecyclerView.setAdapter(mIngredientsAdapter);
                 mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity().getApplicationContext()
                         , LinearLayoutManager.VERTICAL, false));
+                if (savedInstanceState != null) {
+                    onSavedInstanceState = savedInstanceState.getParcelable(SAVED_LAYOUT_MANAGER);
+                }
                 if (bakingData != null) {
                     List<Ingredient> ingredient = bakingData.getIngredients();
                     if (ingredient != null) {
                         mIngredientsAdapter.ifDataChanged(ingredient);
+                    }
+                    if(onSavedInstanceState != null){
+                        mRecyclerView.getLayoutManager().onRestoreInstanceState(onSavedInstanceState);
                     }
                 }
                 return view;
@@ -57,5 +67,11 @@ public class IngredientsFragment extends Fragment {
         }
 
         return view;
+    }
+    @Override
+    public void onSaveInstanceState(@NonNull Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putParcelable(SAVED_LAYOUT_MANAGER, mRecyclerView.getLayoutManager()
+                .onSaveInstanceState());
     }
 }

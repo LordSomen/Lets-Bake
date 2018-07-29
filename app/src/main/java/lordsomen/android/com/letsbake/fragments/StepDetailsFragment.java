@@ -57,48 +57,53 @@ public class StepDetailsFragment extends Fragment {
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if(null != getArguments())
-        stepData = getArguments().getParcelable(VAL);
+        if (null != getArguments())
+            stepData = getArguments().getParcelable(VAL);
     }
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
-        View rootView = inflater.inflate(R.layout.fragment_step_details,container,false);
-        ButterKnife.bind(this,rootView);
+        View rootView = inflater.inflate(R.layout.fragment_step_details, container, false);
+        ButterKnife.bind(this, rootView);
         stepDescription.setText(stepData.getDescription());
         String videoUrl = stepData.getVideoURL();
-        if(videoUrl != null) initializePlayer(videoUrl);
+        if (videoUrl != null && !videoUrl.equals("")) {
+            initializePlayer(videoUrl);
+            stepPlayerView.setVisibility(View.VISIBLE);
+        }
         return rootView;
     }
 
     private void initializePlayer(String videoUrl) {
-        if(null == player) {
-            DefaultBandwidthMeter bandwidthMeter = new DefaultBandwidthMeter();
-            TrackSelection.Factory videoTrackSelectionFactory =
-                    new AdaptiveTrackSelection.Factory(bandwidthMeter);
-            TrackSelector trackSelector =
-                    new DefaultTrackSelector(videoTrackSelectionFactory);
+            if (null == player) {
+                DefaultBandwidthMeter bandwidthMeter = new DefaultBandwidthMeter();
+                TrackSelection.Factory videoTrackSelectionFactory =
+                        new AdaptiveTrackSelection.Factory(bandwidthMeter);
+                TrackSelector trackSelector =
+                        new DefaultTrackSelector(videoTrackSelectionFactory);
 
-            player = ExoPlayerFactory.newSimpleInstance(getContext(), trackSelector);
-            stepPlayerView.setPlayer(player);
-            // Produces DataSource instances through which media data is loaded.
-            String userAgent = Util.getUserAgent(getContext(), "ClassicalMusicQuiz");
-            if (null != getContext()){
-                MediaSource mediaSource = new ExtractorMediaSource(Uri.parse(videoUrl), new DefaultDataSourceFactory(
-                        getContext(), userAgent), new DefaultExtractorsFactory(), null, null);
-            // Prepare the player with the source.
-            player.prepare(mediaSource);
-            player.setPlayWhenReady(true);
+                player = ExoPlayerFactory.newSimpleInstance(getContext(), trackSelector);
+                stepPlayerView.setPlayer(player);
+                // Produces DataSource instances through which media data is loaded.
+                String userAgent = Util.getUserAgent(getContext(), "ClassicalMusicQuiz");
+                if (null != getContext()) {
+                    MediaSource mediaSource = new ExtractorMediaSource(Uri.parse(videoUrl), new DefaultDataSourceFactory(
+                            getContext(), userAgent), new DefaultExtractorsFactory(), null, null);
+                    // Prepare the player with the source.
+                    player.prepare(mediaSource);
+                    player.setPlayWhenReady(true);
+                }
             }
-        }
     }
 
-    public void release_player(){
-        player.stop();
-        player.release();
-        player = null;
+    public void release_player() {
+        if(null != player) {
+            player.stop();
+            player.release();
+            player = null;
+        }
     }
 
     @Override
