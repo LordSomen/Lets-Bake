@@ -72,4 +72,5 @@
         android:layout_marginStart="@dimen/small_margin"
         android:layout_marginLeft="@dimen/small_margin"
         android:layout_marginRight="@dimen/small_margin" />
+
 </LinearLayout>

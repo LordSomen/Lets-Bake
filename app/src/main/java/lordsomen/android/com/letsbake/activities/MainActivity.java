@@ -13,7 +13,6 @@ import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
@@ -142,6 +141,6 @@ public class MainActivity extends AppCompatActivity implements BakingAdapter.Bak
         super.onSaveInstanceState(outState);
         outState.putParcelable(SAVED_LAYOUT_MANAGER, mRecyclerView.getLayoutManager()
                 .onSaveInstanceState());
-        outState.putParcelableArrayList(SAVED_ARRAYLIST, new ArrayList<Parcelable>(mNetworkDataList));
+//        outState.putParcelableArrayList(SAVED_ARRAYLIST, new ArrayList<Parcelable>(mNetworkDataList));
     }
 }

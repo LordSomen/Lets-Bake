@@ -109,7 +109,7 @@ public class BakingWidgetRemoteViewsFactory implements RemoteViewsService.Remote
 
         Ingredient ingredient = ingredientList.get(position);
         RemoteViews rv = new RemoteViews(mContext.getPackageName(), R.layout.ingredients_item);
-
+        Double quantity = ingredient.getQuantity();
         rv.setTextViewText(R.id.ingredients_name_textView, ingredient.getIngredient());
         rv.setTextViewText(R.id.ingredients_quantity_textView, Double.toString
                 (ingredient.getQuantity()) + " " + ingredient.getMeasure());
