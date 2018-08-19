@@ -36,12 +36,17 @@ import lordsomen.android.com.letsbake.pojos.Step;
 public class StepDetailsFragment extends Fragment {
 
     public static final String VAL = "val";
+    private static final String SELECTED_POSITION = "video_position";
+    private static final String SELECTED_WINDOW = "video_window" ;
     @BindView(R.id.fragment_step_playerView)
     public SimpleExoPlayerView stepPlayerView;
     @BindView(R.id.fragment_step_description)
     public TextView stepDescription;
     private Step stepData;
     private SimpleExoPlayer player;
+    private String videoUrl;
+    private long startVideoPosition;
+    private int startVideoWindow;
 
 
     public static StepDetailsFragment init(Step step) {
@@ -68,10 +73,23 @@ public class StepDetailsFragment extends Fragment {
         View rootView = inflater.inflate(R.layout.fragment_step_details, container, false);
         ButterKnife.bind(this, rootView);
         stepDescription.setText(stepData.getDescription());
-        String videoUrl = stepData.getVideoURL();
+        videoUrl = stepData.getVideoURL();
+        if(savedInstanceState != null) {
+            startVideoPosition = savedInstanceState.getLong(SELECTED_POSITION);
+            startVideoWindow = savedInstanceState.getInt(SELECTED_WINDOW);
+
+
+        }
         if (videoUrl != null && !videoUrl.equals("")) {
+
             initializePlayer(videoUrl);
             stepPlayerView.setVisibility(View.VISIBLE);
+        }else {
+            ViewGroup.LayoutParams params = stepDescription.getLayoutParams();
+            params.height = ViewGroup.LayoutParams.MATCH_PARENT;
+            params.width = ViewGroup.LayoutParams.MATCH_PARENT;
+            stepDescription.setLayoutParams(params);
+
         }
         return rootView;
     }
@@ -94,21 +112,74 @@ public class StepDetailsFragment extends Fragment {
                     // Prepare the player with the source.
                     player.prepare(mediaSource);
                     player.setPlayWhenReady(true);
+                    if(startVideoPosition != 0)
+                        player.seekTo(startVideoWindow,startVideoPosition);
                 }
             }
     }
 
-    public void release_player() {
-        if(null != player) {
+//    public void release_player() {
+//        if(null != player) {
+//            player.stop();
+//            player.release();
+//            player = null;
+//        }
+//    }
+//
+//    @Override
+//    public void onStop() {
+//        super.onStop();
+//        release_player();
+//    }
+
+//    @Override
+//    public void onResume() {
+//        super.onResume();
+//        if (videoUrl != null)
+//            initializePlayer(videoUrl);
+//    }
+
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        if (Util.SDK_INT > 23 && null != videoUrl ) {
+            initializePlayer(videoUrl);
+        }
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        if (Util.SDK_INT <= 23 && null != videoUrl) {
+            initializePlayer(videoUrl);
+        }
+    }
+
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        if (player != null) {
+            updateStartPosition();
             player.stop();
             player.release();
             player = null;
         }
     }
 
+    private void updateStartPosition() {
+        if (player != null) {
+//            startAutoPlay = player.getPlayWhenReady();
+            startVideoWindow = player.getCurrentWindowIndex();
+            startVideoPosition = Math.max(0, player.getContentPosition());
+        }
+    }
+
     @Override
-    public void onStop() {
-        super.onStop();
-        release_player();
+    public void onSaveInstanceState(@NonNull Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putLong(SELECTED_POSITION, startVideoPosition);
+        outState.putInt(SELECTED_WINDOW,startVideoWindow);
     }
 }

@@ -108,10 +108,10 @@ public class BakingWidgetRemoteViewsFactory implements RemoteViewsService.Remote
         }
 
         Ingredient ingredient = ingredientList.get(position);
-        RemoteViews rv = new RemoteViews(mContext.getPackageName(), R.layout.ingredients_item);
+        RemoteViews rv = new RemoteViews(mContext.getPackageName(), R.layout.ingredients_item_widget);
         Double quantity = ingredient.getQuantity();
-        rv.setTextViewText(R.id.ingredients_name_textView, ingredient.getIngredient());
-        rv.setTextViewText(R.id.ingredients_quantity_textView, Double.toString
+        rv.setTextViewText(R.id.ingredients_name_textView_widget, ingredient.getIngredient());
+        rv.setTextViewText(R.id.ingredients_quantity_textView_widget, Double.toString
                 (ingredient.getQuantity()) + " " + ingredient.getMeasure());
 
         return rv;

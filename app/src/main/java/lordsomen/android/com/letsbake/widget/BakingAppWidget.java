@@ -34,6 +34,8 @@ public class BakingAppWidget extends AppWidgetProvider {
             );
             Intent intent = new Intent(context, BakingWidgetRemoteViewsService.class);
             views.setRemoteAdapter(R.id.widget_ingredients_list, intent);
+//            views.setTextViewText(R.id.widget_title_textView,);
+
             updateAppWidget(context,appWidgetManager, appWidgetId,views);
         }
     }
