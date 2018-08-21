@@ -1,54 +1,48 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical">
 
 
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:orientation="horizontal">
-
-    <TextView
-        android:id="@+id/ingredients_name_textView"
-        android:layout_width="0dp"
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_weight="6"
-        android:textSize="@dimen/textsize_normal"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="16dp"
-        tools:text="TextView"
-        android:layout_marginLeft="25dp"
-        android:maxLines="3"
-        android:fontFamily="sans-serif-condensed"
-        android:gravity="start"
-        />
+        android:orientation="horizontal">
 
-    <TextView
-        android:id="@+id/ingredients_quantity_textView"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_weight="4"
-        android:layout_marginEnd="10dp"
-        android:layout_marginTop="16dp"
-        android:layout_marginStart="25dp"
-        tools:text="TextView"
-        android:layout_marginRight="25dp"
-        android:gravity="end"
-        android:layout_marginLeft="25dp"
-        android:textSize="@dimen/textsize_normal"
-        android:fontFamily="sans-serif-condensed"
-        />
+        <TextView
+            android:id="@+id/ingredients_name_textView"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="25dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="16dp"
+            android:layout_weight="6"
+            android:fontFamily="sans-serif-condensed"
+            android:gravity="start"
+            android:maxLines="3"
+            android:textSize="@dimen/textsize_normal"
+            tools:text="TextView" />
 
-    <!--<ImageView-->
+        <TextView
+            android:id="@+id/ingredients_quantity_textView"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="10dp"
+            android:layout_marginLeft="25dp"
+            android:layout_marginRight="25dp"
+            android:layout_marginStart="25dp"
+            android:layout_marginTop="16dp"
+            android:layout_weight="4"
+            android:fontFamily="sans-serif-condensed"
+            android:gravity="end"
+            android:textSize="@dimen/textsize_normal"
+            tools:text="TextView" />
+
+        <!--<ImageView-->
         <!--android:id="@+id/viewline"-->
         <!--android:layout_width="match_parent"-->
         <!--android:layout_height="1dp"-->
@@ -62,15 +56,15 @@
         <!--app:layout_constraintTop_toBottomOf="@+id/ingredients_name_textView"-->
         <!--app:srcCompat="@drawable/ic_launcher_foreground" />-->
 
-</LinearLayout>
+    </LinearLayout>
 
     <View
         android:layout_width="match_parent"
         android:layout_height="2dp"
-        android:background="@color/colorPrimaryDark"
         android:layout_marginEnd="@dimen/small_margin"
-        android:layout_marginStart="@dimen/small_margin"
         android:layout_marginLeft="@dimen/small_margin"
-        android:layout_marginRight="@dimen/small_margin" />
+        android:layout_marginRight="@dimen/small_margin"
+        android:layout_marginStart="@dimen/small_margin"
+        android:background="@color/colorPrimaryDark" />
 
 </LinearLayout>

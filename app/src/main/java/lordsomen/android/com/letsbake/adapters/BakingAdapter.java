@@ -33,12 +33,12 @@ public class BakingAdapter extends RecyclerView.Adapter<BakingAdapter.BakingAdap
     private static final String TAG = BakingAdapter.class.getSimpleName();
     private static final String SHARED_PREF_BUTTON = "shared_pref_button";
     private static final String POS = "position";
-
+    public static int CURRENT_ID_WIDGET;
     private List<BakingData> mBakingDataList;
     private Context mContext;
     private BakingItemSelector mBakingItemSelector;
 
-    public BakingAdapter(Context context,BakingItemSelector bakingItemSelector){
+    public BakingAdapter(Context context, BakingItemSelector bakingItemSelector) {
         this.mContext = context;
         mBakingItemSelector = bakingItemSelector;
     }
@@ -46,16 +46,16 @@ public class BakingAdapter extends RecyclerView.Adapter<BakingAdapter.BakingAdap
     @Override
     public BakingAdapterViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         return new BakingAdapterViewHolder(LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.main_item,parent,false));
+                .inflate(R.layout.main_item, parent, false));
     }
 
     @Override
     public void onBindViewHolder(BakingAdapterViewHolder holder, int position) {
         BakingData bakingData = mBakingDataList.get(position);
-        if(bakingData != null) {
+        if (bakingData != null) {
             String videoUrl = bakingData.getSteps()
                     .get(bakingData.getSteps().size() - 1).getVideoURL();
-            Log.d(TAG,"imgUrl" + videoUrl);
+            Log.d(TAG, "imgUrl" + videoUrl);
 
             GlideApp.with(mContext)
                     .load(videoUrl)
@@ -65,10 +65,11 @@ public class BakingAdapter extends RecyclerView.Adapter<BakingAdapter.BakingAdap
             holder.mRecipeName.setText(bakingData.getName());
             SharedPreferences sharedPreferences = mContext.getSharedPreferences(SHARED_PREF_BUTTON
                     , Context.MODE_PRIVATE);
-            if(sharedPreferences.contains(POS+position)){
+            if (sharedPreferences.contains(POS + position)) {
                 holder.mWidgetButton.setBackground(ContextCompat
                         .getDrawable(mContext, R.drawable.button_shape_filled));
-            }else {
+                CURRENT_ID_WIDGET = bakingData.getId();
+            } else {
                 holder.mWidgetButton.setBackground(ContextCompat
                         .getDrawable(mContext, R.drawable.button_shape));
             }
@@ -77,11 +78,11 @@ public class BakingAdapter extends RecyclerView.Adapter<BakingAdapter.BakingAdap
 
     @Override
     public int getItemCount() {
-        if(mBakingDataList == null) return 0;
+        if (mBakingDataList == null) return 0;
         else return mBakingDataList.size();
     }
 
-    public void ifDataChanged(List<BakingData> bakingDataList){
+    public void ifDataChanged(List<BakingData> bakingDataList) {
         mBakingDataList = bakingDataList;
         notifyDataSetChanged();
     }
@@ -90,7 +91,7 @@ public class BakingAdapter extends RecyclerView.Adapter<BakingAdapter.BakingAdap
         void onBakingItemSelected(BakingData bakingData);
     }
 
-    public class BakingAdapterViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
+    public class BakingAdapterViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
         @BindView(R.id.main_item_thumbnail_image)
         ImageView mMainItemImageView;
@@ -101,7 +102,7 @@ public class BakingAdapter extends RecyclerView.Adapter<BakingAdapter.BakingAdap
 
         public BakingAdapterViewHolder(View itemView) {
             super(itemView);
-            ButterKnife.bind(this,itemView);
+            ButterKnife.bind(this, itemView);
             itemView.setOnClickListener(this);
             mWidgetButton.setOnClickListener(this);
         }
@@ -109,7 +110,7 @@ public class BakingAdapter extends RecyclerView.Adapter<BakingAdapter.BakingAdap
 
         @Override
         public void onClick(View v) {
-            if(v.getId() == mWidgetButton.getId()){
+            if (v.getId() == mWidgetButton.getId()) {
                 SharedPreferences sharedPreferences = mContext.getSharedPreferences(SHARED_PREF_BUTTON
                         , Context.MODE_PRIVATE);
                 if (!sharedPreferences.contains(POS + getAdapterPosition())) {
@@ -126,11 +127,13 @@ public class BakingAdapter extends RecyclerView.Adapter<BakingAdapter.BakingAdap
                     editor.apply();
                     mWidgetButton.setBackground(ContextCompat
                             .getDrawable(mContext, R.drawable.button_shape_filled));
+
+                    CURRENT_ID_WIDGET = mBakingDataList.get(getAdapterPosition()).getId();
                 }
                 AddToDatabase addToDatabase = new AddToDatabase();
                 addToDatabase.add(mBakingDataList
-                        .get(getAdapterPosition()),mContext);
-            }else {
+                        .get(getAdapterPosition()), mContext);
+            } else {
                 mBakingItemSelector.onBakingItemSelected(mBakingDataList.get(getAdapterPosition()));
             }
         }

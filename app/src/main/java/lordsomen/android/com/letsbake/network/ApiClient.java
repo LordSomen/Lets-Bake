@@ -13,7 +13,7 @@ public class ApiClient {
 
     private static Retrofit retrofit = null;
 
-    public static Retrofit getApiClient(){
+    public static Retrofit getApiClient() {
 
         HttpLoggingInterceptor httpLoggingInterceptor = new HttpLoggingInterceptor();
         httpLoggingInterceptor.setLevel(HttpLoggingInterceptor.Level.BODY);

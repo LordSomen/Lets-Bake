@@ -10,8 +10,19 @@ import com.google.gson.annotations.SerializedName;
  * Created by soumyajit on 9/3/18.
  */
 
-public class Ingredient implements Parcelable{
+public class Ingredient implements Parcelable {
 
+    public static final Creator<Ingredient> CREATOR = new Creator<Ingredient>() {
+        @Override
+        public Ingredient createFromParcel(Parcel in) {
+            return new Ingredient(in);
+        }
+
+        @Override
+        public Ingredient[] newArray(int size) {
+            return new Ingredient[size];
+        }
+    };
     @SerializedName("quantity")
     @Expose
     private Double quantity;
@@ -31,18 +42,6 @@ public class Ingredient implements Parcelable{
         measure = in.readString();
         ingredient = in.readString();
     }
-
-    public static final Creator<Ingredient> CREATOR = new Creator<Ingredient>() {
-        @Override
-        public Ingredient createFromParcel(Parcel in) {
-            return new Ingredient(in);
-        }
-
-        @Override
-        public Ingredient[] newArray(int size) {
-            return new Ingredient[size];
-        }
-    };
 
     public Double getQuantity() {
         return quantity;

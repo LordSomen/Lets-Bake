@@ -1,16 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical">
 
 
-    <LinearLayout
-        xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:app="http://schemas.android.com/apk/res-auto"
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -20,14 +16,14 @@
             android:id="@+id/ingredients_name_textView_widget"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_weight="6"
-            android:textSize="@dimen/textsize_normal"
+            android:layout_marginLeft="16dp"
             android:layout_marginStart="16dp"
             android:layout_marginTop="16dp"
-            tools:text="TextView"
-            android:layout_marginLeft="16dp"
+            android:layout_weight="6"
             android:gravity="start"
             android:textColor="@android:color/black"
+            android:textSize="@dimen/textsize_normal"
+            tools:text="TextView"
 
             />
         <!--android:layout_marginLeft="25dp"-->
@@ -38,16 +34,16 @@
             android:id="@+id/ingredients_quantity_textView_widget"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_weight="4"
             android:layout_marginEnd="10dp"
-            android:layout_marginTop="16dp"
-            android:layout_marginStart="25dp"
-            tools:text="TextView"
-            android:layout_marginRight="25dp"
-            android:gravity="end"
             android:layout_marginLeft="25dp"
+            android:layout_marginRight="25dp"
+            android:layout_marginStart="25dp"
+            android:layout_marginTop="16dp"
+            android:layout_weight="4"
+            android:gravity="end"
+            android:textColor="@android:color/black"
             android:textSize="@dimen/textsize_normal"
-            android:textColor="@android:color/black"/>
+            tools:text="TextView" />
         <!--android:fontFamily="sans-serif-condensed"-->
 
 

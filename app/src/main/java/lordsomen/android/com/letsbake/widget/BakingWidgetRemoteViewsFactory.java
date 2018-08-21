@@ -84,6 +84,7 @@ public class BakingWidgetRemoteViewsFactory implements RemoteViewsService.Remote
             Gson gson = new Gson();
             ingredientList = gson.fromJson(mData, type);
             Binder.restoreCallingIdentity(identityToken);
+            mCursor.close();
         }
     }
 
@@ -96,9 +97,9 @@ public class BakingWidgetRemoteViewsFactory implements RemoteViewsService.Remote
 
     @Override
     public int getCount() {
-        if(ingredientList != null){
+        if (ingredientList != null) {
             return ingredientList.size();
-        }else return 0;
+        } else return 0;
     }
 
     @Override
@@ -113,7 +114,7 @@ public class BakingWidgetRemoteViewsFactory implements RemoteViewsService.Remote
         rv.setTextViewText(R.id.ingredients_name_textView_widget, ingredient.getIngredient());
         rv.setTextViewText(R.id.ingredients_quantity_textView_widget, Double.toString
                 (ingredient.getQuantity()) + " " + ingredient.getMeasure());
-
+        rv.setTextViewText(R.id.widget_title_textView, "hollla");
         return rv;
 
     }
@@ -130,7 +131,7 @@ public class BakingWidgetRemoteViewsFactory implements RemoteViewsService.Remote
 
     @Override
     public long getItemId(int position) {
-       // return mCursor.moveToPosition(position) ? mCursor.getLong(0) : position;
+        // return mCursor.moveToPosition(position) ? mCursor.getLong(0) : position;
         return position;
     }
 

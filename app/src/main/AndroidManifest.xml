@@ -37,13 +37,12 @@
 
         <service
             android:name=".widget.BakingWidgetRemoteViewsService"
-            android:permission="android.permission.BIND_REMOTEVIEWS"/>
+            android:permission="android.permission.BIND_REMOTEVIEWS" />
 
         <provider
             android:name="lordsomen.android.com.letsbake.data.BakingContentProvider"
             android:authorities="lordsomen.android.com.letsbake.data"
-            android:exported="true"
-            />
+            android:exported="true" />
 
     </application>
 

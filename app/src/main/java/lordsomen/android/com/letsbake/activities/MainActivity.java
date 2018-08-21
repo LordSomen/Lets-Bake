@@ -22,17 +22,16 @@ import lordsomen.android.com.letsbake.adapters.BakingAdapter;
 import lordsomen.android.com.letsbake.network.ApiClient;
 import lordsomen.android.com.letsbake.network.ApiInterface;
 import lordsomen.android.com.letsbake.pojos.BakingData;
+import lordsomen.android.com.letsbake.widget.BakingAppWidget;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class MainActivity extends AppCompatActivity implements BakingAdapter.BakingItemSelector{
+public class MainActivity extends AppCompatActivity implements BakingAdapter.BakingItemSelector {
 
     private final static String TAG = MainActivity.class.getSimpleName();
     private static final String SAVED_ARRAYLIST = "saved_array_list";
     private static final String SAVED_LAYOUT_MANAGER = "layout-manager-state";
-    private ApiInterface mApiInterface;
-    private List<BakingData> mNetworkDataList;
     @BindView(R.id.main_recycler_view)
     RecyclerView mRecyclerView;
     @BindView(R.id.main_linear_layout)
@@ -43,6 +42,8 @@ public class MainActivity extends AppCompatActivity implements BakingAdapter.Bak
     Toolbar toolbar;
     @BindView(R.id.main_reload_button)
     Button mButton;
+    private ApiInterface mApiInterface;
+    private List<BakingData> mNetworkDataList;
     private BakingAdapter mBakingAdapter;
     private Parcelable onSavedInstanceState = null;
 
@@ -52,12 +53,12 @@ public class MainActivity extends AppCompatActivity implements BakingAdapter.Bak
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
-        if(null != toolbar){
+        if (null != toolbar) {
             setSupportActionBar(toolbar);
             toolbar.setTitle(getResources().getString(R.string.app_name));
         }
         mApiInterface = ApiClient.getApiClient().create(ApiInterface.class);
-        mBakingAdapter = new BakingAdapter(this,this);
+        mBakingAdapter = new BakingAdapter(this, this);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this,
                 LinearLayoutManager.VERTICAL, false);
         mRecyclerView.setAdapter(mBakingAdapter);
@@ -77,7 +78,7 @@ public class MainActivity extends AppCompatActivity implements BakingAdapter.Bak
         });
     }
 
-    public void loadData(){
+    public void loadData() {
         final Call<List<BakingData>> listCall = mApiInterface.getAllBakingData();
         // now binding the data in the pojo class
         listCall.enqueue(new Callback<List<BakingData>>() {
@@ -91,9 +92,10 @@ public class MainActivity extends AppCompatActivity implements BakingAdapter.Bak
                 if (null != mNetworkDataList) {
                     showBakingList();
                     mBakingAdapter.ifDataChanged(mNetworkDataList);
-                    if(onSavedInstanceState != null){
+                    if (onSavedInstanceState != null) {
                         mRecyclerView.getLayoutManager().onRestoreInstanceState(onSavedInstanceState);
                     }
+                    BakingAppWidget.sendRefreshBroadcast(getApplicationContext());
                 } else {
                     showError();
                 }
@@ -129,9 +131,9 @@ public class MainActivity extends AppCompatActivity implements BakingAdapter.Bak
 
     @Override
     public void onBakingItemSelected(BakingData bakingData) {
-        Intent intent = new Intent(this,BakingDetailsActivity.class);
+        Intent intent = new Intent(this, BakingDetailsActivity.class);
         Bundle bundle = new Bundle();
-        bundle.putParcelable(BakingData.BAKINGDATA,bakingData);
+        bundle.putParcelable(BakingData.BAKINGDATA, bakingData);
         intent.putExtras(bundle);
         startActivity(intent);
     }

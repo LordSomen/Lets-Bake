@@ -23,24 +23,25 @@ public class BakingDetailsActivity extends AppCompatActivity {
     ViewPager mViewPager;
     @BindView(R.id.toolbar_baking_details)
     Toolbar toolbar;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_baking_details);
         ButterKnife.bind(this);
-        if(null != toolbar){
+        if (null != toolbar) {
             setSupportActionBar(toolbar);
             toolbar.setTitle(getResources().getString(R.string.app_name));
         }
         ViewPagerAdapter viewPagerAdapter = new ViewPagerAdapter(getSupportFragmentManager());
         IngredientsFragment ingredientsFragment = new IngredientsFragment();
         RecipeFragment recipeFragment = new RecipeFragment();
-        viewPagerAdapter.addFragment(ingredientsFragment,"Ingredients");
-        viewPagerAdapter.addFragment(recipeFragment,"Recipes");
+        viewPagerAdapter.addFragment(ingredientsFragment, "Ingredients");
+        viewPagerAdapter.addFragment(recipeFragment, "Recipes");
         Intent intent = getIntent();
-        if(intent.hasExtra(BakingData.BAKINGDATA)){
+        if (intent.hasExtra(BakingData.BAKINGDATA)) {
             Bundle bundle = intent.getExtras();
-            if(bundle != null) {
+            if (bundle != null) {
                 ingredientsFragment.setArguments(bundle);
                 recipeFragment.setArguments(bundle);
             }

@@ -41,11 +41,11 @@ public class IngredientsFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
 
-        View view = inflater.inflate(R.layout.fragments_ingredients,container,false);
-        ButterKnife.bind(this,view);
-        if(null != getArguments()) {
+        View view = inflater.inflate(R.layout.fragments_ingredients, container, false);
+        ButterKnife.bind(this, view);
+        if (null != getArguments()) {
             BakingData bakingData = getArguments().getParcelable(BakingData.BAKINGDATA);
-            if(null != getActivity()) {
+            if (null != getActivity()) {
                 mIngredientsAdapter = new IngredientsAdapter(getActivity().getApplicationContext());
                 mRecyclerView.setAdapter(mIngredientsAdapter);
                 mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity().getApplicationContext()
@@ -58,7 +58,7 @@ public class IngredientsFragment extends Fragment {
                     if (ingredient != null) {
                         mIngredientsAdapter.ifDataChanged(ingredient);
                     }
-                    if(onSavedInstanceState != null){
+                    if (onSavedInstanceState != null) {
                         mRecyclerView.getLayoutManager().onRestoreInstanceState(onSavedInstanceState);
                     }
                 }
@@ -68,6 +68,7 @@ public class IngredientsFragment extends Fragment {
 
         return view;
     }
+
     @Override
     public void onSaveInstanceState(@NonNull Bundle outState) {
         super.onSaveInstanceState(outState);

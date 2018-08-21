@@ -9,6 +9,8 @@ import android.net.Uri;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
+import lordsomen.android.com.letsbake.adapters.BakingAdapter;
+
 public class BakingContentProvider extends ContentProvider {
 
 
@@ -45,12 +47,11 @@ public class BakingContentProvider extends ContentProvider {
             if (context == null) {
                 return null;
             }
+
             BakingAppDao bakingAppDao = BakingAppDatabase.getDataInstance(context).BakingAppDao();
             final Cursor cursor;
-            int Id = AddToDatabase.CURRENT_ID;
-//            SharedPreferences sharedPreferences = context.getSharedPreferences
-//                    (AddToDatabase.SHARED_PREF,Context.MODE_PRIVATE);
-//            Id = sharedPreferences.getInt(AddToDatabase.ID_,-1);
+            int Id = BakingAdapter.CURRENT_ID_WIDGET;
+
             cursor = bakingAppDao.selectById(Id);
             cursor.setNotificationUri(context.getContentResolver(), uri);
             return cursor;

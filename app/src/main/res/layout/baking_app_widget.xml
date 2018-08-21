@@ -1,7 +1,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:tools="http://schemas.android.com/tools"
     android:orientation="vertical">
 
     <TextView
@@ -9,40 +9,40 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        tools:text="PieCream"
-        android:textColor="@android:color/black"
-        android:textStyle="bold"
-        android:textSize="15sp"
         android:layout_margin="8dp"
-        />
+        android:background="@color/colorPrimary"
+        android:textColor="@android:color/black"
+        android:textSize="15sp"
+        android:textStyle="bold"
+        tools:text="PieCream" />
 
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:padding="@dimen/widget_margin"
-    android:background="#fff">
-
-
-    <ListView
-        android:id="@+id/widget_ingredients_list"
+    <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        android:layout_height="match_parent"
+        android:background="#fff"
+        android:padding="@dimen/widget_margin">
 
-    <ProgressBar
-        android:id="@+id/widget_progress_bar"
-        android:layout_width="50dp"
-        android:layout_height="50dp"
-        android:layout_gravity="center"
-        android:visibility="gone"/>
 
-    <TextView
-        android:id="@+id/widget_error_textView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:text="@string/normal_error_indicating_text"
-        android:textColor="@color/colorPrimaryDark"
-        android:visibility="gone"/>
+        <ListView
+            android:id="@+id/widget_ingredients_list"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
 
-</FrameLayout>
+        <ProgressBar
+            android:id="@+id/widget_progress_bar"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_gravity="center"
+            android:visibility="gone" />
+
+        <TextView
+            android:id="@+id/widget_error_textView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="@string/normal_error_indicating_text"
+            android:textColor="@color/colorPrimaryDark"
+            android:visibility="gone" />
+
+    </FrameLayout>
 </LinearLayout>

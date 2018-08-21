@@ -33,7 +33,7 @@ dependencies {
         // excluding Retrofit’s OkHttp dependency module and defining my own module import
         exclude module: 'okhttp'
     }
-    implementation'com.google.code.gson:gson:2.8.5'
+    implementation 'com.google.code.gson:gson:2.8.5'
     implementation 'com.squareup.retrofit2:converter-gson:2.3.0'
     implementation 'com.squareup.okhttp3:logging-interceptor:3.6.0'
     implementation 'com.squareup.okhttp3:okhttp:3.8.0'

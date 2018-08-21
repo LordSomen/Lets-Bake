@@ -62,7 +62,7 @@ public class RecipeFragment extends Fragment implements RecipesAdapter.StepSelec
             if (mStepList != null) {
                 mRecipesAdapter.ifDataChanged(mStepList);
             }
-            if(onSavedInstanceState != null){
+            if (onSavedInstanceState != null) {
                 mRecyclerView.getLayoutManager().onRestoreInstanceState(onSavedInstanceState);
             }
         }

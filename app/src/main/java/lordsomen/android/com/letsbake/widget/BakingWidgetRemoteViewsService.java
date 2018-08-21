@@ -6,7 +6,6 @@ import android.widget.RemoteViewsService;
 public class BakingWidgetRemoteViewsService extends RemoteViewsService {
 
 
-
     @Override
     public BakingWidgetRemoteViewsFactory onGetViewFactory(Intent intent) {
 

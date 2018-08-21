@@ -37,7 +37,7 @@ public class StepDetailsFragment extends Fragment {
 
     public static final String VAL = "val";
     private static final String SELECTED_POSITION = "video_position";
-    private static final String SELECTED_WINDOW = "video_window" ;
+    private static final String SELECTED_WINDOW = "video_window";
     @BindView(R.id.fragment_step_playerView)
     public SimpleExoPlayerView stepPlayerView;
     @BindView(R.id.fragment_step_description)
@@ -74,76 +74,82 @@ public class StepDetailsFragment extends Fragment {
         ButterKnife.bind(this, rootView);
         stepDescription.setText(stepData.getDescription());
         videoUrl = stepData.getVideoURL();
-        if(savedInstanceState != null) {
+        if (savedInstanceState != null) {
             startVideoPosition = savedInstanceState.getLong(SELECTED_POSITION);
             startVideoWindow = savedInstanceState.getInt(SELECTED_WINDOW);
-
 
         }
         if (videoUrl != null && !videoUrl.equals("")) {
 
             initializePlayer(videoUrl);
             stepPlayerView.setVisibility(View.VISIBLE);
-        }else {
+        } else {
+            release_player();
             ViewGroup.LayoutParams params = stepDescription.getLayoutParams();
             params.height = ViewGroup.LayoutParams.MATCH_PARENT;
             params.width = ViewGroup.LayoutParams.MATCH_PARENT;
             stepDescription.setLayoutParams(params);
-
         }
         return rootView;
     }
 
     private void initializePlayer(String videoUrl) {
-            if (null == player) {
-                DefaultBandwidthMeter bandwidthMeter = new DefaultBandwidthMeter();
-                TrackSelection.Factory videoTrackSelectionFactory =
-                        new AdaptiveTrackSelection.Factory(bandwidthMeter);
-                TrackSelector trackSelector =
-                        new DefaultTrackSelector(videoTrackSelectionFactory);
+        if (null == player) {
+            DefaultBandwidthMeter bandwidthMeter = new DefaultBandwidthMeter();
+            TrackSelection.Factory videoTrackSelectionFactory =
+                    new AdaptiveTrackSelection.Factory(bandwidthMeter);
+            TrackSelector trackSelector =
+                    new DefaultTrackSelector(videoTrackSelectionFactory);
 
-                player = ExoPlayerFactory.newSimpleInstance(getContext(), trackSelector);
-                stepPlayerView.setPlayer(player);
-                // Produces DataSource instances through which media data is loaded.
-                String userAgent = Util.getUserAgent(getContext(), "ClassicalMusicQuiz");
-                if (null != getContext()) {
-                    MediaSource mediaSource = new ExtractorMediaSource(Uri.parse(videoUrl), new DefaultDataSourceFactory(
-                            getContext(), userAgent), new DefaultExtractorsFactory(), null, null);
-                    // Prepare the player with the source.
-                    player.prepare(mediaSource);
-                    player.setPlayWhenReady(true);
-                    if(startVideoPosition != 0)
-                        player.seekTo(startVideoWindow,startVideoPosition);
-                }
+            player = ExoPlayerFactory.newSimpleInstance(getContext(), trackSelector);
+            stepPlayerView.setPlayer(player);
+            // Produces DataSource instances through which media data is loaded.
+            String userAgent = Util.getUserAgent(getContext(), "ClassicalMusicQuiz");
+            if (null != getContext()) {
+                MediaSource mediaSource = new ExtractorMediaSource(Uri.parse(videoUrl), new DefaultDataSourceFactory(
+                        getContext(), userAgent), new DefaultExtractorsFactory(), null, null);
+                // Prepare the player with the source.
+                player.prepare(mediaSource);
+                player.setPlayWhenReady(true);
+                if (startVideoPosition != 0)
+                    player.seekTo(startVideoPosition);
             }
+        }
     }
 
-//    public void release_player() {
-//        if(null != player) {
-//            player.stop();
-//            player.release();
-//            player = null;
-//        }
-//    }
-//
-//    @Override
-//    public void onStop() {
-//        super.onStop();
-//        release_player();
-//    }
+    public void release_player() {
+        if (null != player) {
+            updateStartPosition();
+            player.stop();
+            player.release();
+            player = null;
+        }
+    }
+    private void updateStartPosition() {
+        if (player != null) {
+            startVideoWindow = player.getCurrentWindowIndex();
+            startVideoPosition = Math.max(0, player.getContentPosition());
+        }
+    }
 
-//    @Override
-//    public void onResume() {
-//        super.onResume();
-//        if (videoUrl != null)
-//            initializePlayer(videoUrl);
-//    }
+    @Override
+    public void onStop() {
+        super.onStop();
+        if (Util.SDK_INT > 23) release_player();
+    }
 
+    @Override
+    public void onPause() {
+        super.onPause();
+        if(player != null)
+            player.getPlayWhenReady();
+        if (Util.SDK_INT <= 23) release_player();
+    }
 
     @Override
     public void onStart() {
         super.onStart();
-        if (Util.SDK_INT > 23 && null != videoUrl ) {
+        if (Util.SDK_INT > 23 && null != videoUrl && !videoUrl.equals("")) {
             initializePlayer(videoUrl);
         }
     }
@@ -151,35 +157,16 @@ public class StepDetailsFragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
-        if (Util.SDK_INT <= 23 && null != videoUrl) {
+        if (Util.SDK_INT <= 23 && null != videoUrl && !videoUrl.equals("")) {
             initializePlayer(videoUrl);
         }
     }
 
 
     @Override
-    public void onPause() {
-        super.onPause();
-        if (player != null) {
-            updateStartPosition();
-            player.stop();
-            player.release();
-            player = null;
-        }
-    }
-
-    private void updateStartPosition() {
-        if (player != null) {
-//            startAutoPlay = player.getPlayWhenReady();
-            startVideoWindow = player.getCurrentWindowIndex();
-            startVideoPosition = Math.max(0, player.getContentPosition());
-        }
-    }
-
-    @Override
     public void onSaveInstanceState(@NonNull Bundle outState) {
         super.onSaveInstanceState(outState);
         outState.putLong(SELECTED_POSITION, startVideoPosition);
-        outState.putInt(SELECTED_WINDOW,startVideoWindow);
+        outState.putInt(SELECTED_WINDOW, startVideoWindow);
     }
 }

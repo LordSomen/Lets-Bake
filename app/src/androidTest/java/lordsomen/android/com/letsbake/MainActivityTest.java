@@ -25,7 +25,12 @@ public class MainActivityTest {
     public static final int recyclerViewId = R.id.main_recycler_view;
 
     @Rule
-   public ActivityTestRule<MainActivity> mainActivityTestRule = new ActivityTestRule<>(MainActivity.class);
+    public ActivityTestRule<MainActivity> mainActivityTestRule = new ActivityTestRule<>(MainActivity.class);
+
+    public static RecyclerViewMatcher withRecyclerView(final int recyclerViewId) {
+
+        return new RecyclerViewMatcher(recyclerViewId);
+    }
 
     /**
      * in this method we are testing is the recyclerview is clickable or not
@@ -33,21 +38,20 @@ public class MainActivityTest {
 //    public static RecyclerViewMatcher withRecyclerView(final int recyclerViewId) {
 //        return new RecyclerViewMatcher(recyclerViewId);
 //    }
-
     @Test
     public void recyclerViewItemClickTest() {
-       onView(ViewMatchers.withId(recyclerViewId))
+        onView(ViewMatchers.withId(recyclerViewId))
                 .perform(RecyclerViewActions.actionOnItemAtPosition(1, click()));
     }
 
     @Test
-    public  void scrollRecyclerViewItem() {
+    public void scrollRecyclerViewItem() {
         onView(ViewMatchers.withId(recyclerViewId)).perform(RecyclerViewActions.scrollToPosition(3));
 //        onView(withRecyclerView(recyclerViewId).atPosition(position)).perform(click());
     }
 
     @Test
-    public void allItemsDisplayed()  {
+    public void allItemsDisplayed() {
 
 
         onView(withRecyclerView(recyclerViewId)
@@ -57,11 +61,6 @@ public class MainActivityTest {
                 .atPositionOnView(1, R.id.main_item_recipe_name))
                 .check(matches(isDisplayed()));
 
-    }
-
-    public static RecyclerViewMatcher withRecyclerView(final int recyclerViewId) {
-
-        return new RecyclerViewMatcher(recyclerViewId);
     }
 
 
