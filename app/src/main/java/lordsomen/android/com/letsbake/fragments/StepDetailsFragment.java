@@ -73,7 +73,7 @@ public class StepDetailsFragment extends Fragment {
                              @Nullable Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_step_details, container, false);
         ButterKnife.bind(this, rootView);
-        if(null!= stepData) {
+        if (null != stepData) {
             stepDescription.setText(stepData.getDescription());
             videoUrl = stepData.getVideoURL();
         }
@@ -128,6 +128,7 @@ public class StepDetailsFragment extends Fragment {
             player = null;
         }
     }
+
     private void updateStartPosition() {
         if (player != null) {
             startVideoWindow = player.getCurrentWindowIndex();
@@ -144,7 +145,7 @@ public class StepDetailsFragment extends Fragment {
     @Override
     public void onPause() {
         super.onPause();
-        if(player != null)
+        if (player != null)
             player.getPlayWhenReady();
         if (Util.SDK_INT <= 23) release_player();
     }

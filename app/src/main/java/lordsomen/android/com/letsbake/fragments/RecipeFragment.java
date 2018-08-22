@@ -78,20 +78,20 @@ public class RecipeFragment extends Fragment implements RecipesAdapter.StepSelec
 
     @Override
     public void onStepSelected(Step step, int position) {
-        if(!mTwoPane) {
+        if (!mTwoPane) {
             Intent recipeIntent = new Intent(getActivity().getApplicationContext(), StepDetailsActivity.class);
             Bundle mBundle = new Bundle();
             mBundle.putParcelable(BakingData.BAKINGDATA, mBakingData);
             mBundle.putInt(Step.POSITION, position);
             recipeIntent.putExtras(mBundle);
             startActivity(recipeIntent);
-        }else {
+        } else {
             StepDetailsFragment stepDetailsFragment = new StepDetailsFragment();
             Bundle arguments = new Bundle();
             arguments.putParcelable(StepDetailsFragment.VAL, step);
             stepDetailsFragment.setArguments(arguments);
             getActivity().getSupportFragmentManager().beginTransaction()
-                    .replace(R.id.step_detail_container,stepDetailsFragment)
+                    .replace(R.id.step_detail_container, stepDetailsFragment)
                     .commit();
         }
     }
