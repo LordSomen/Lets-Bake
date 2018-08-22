@@ -10,6 +10,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.FrameLayout;
 
 import java.util.List;
 
@@ -28,9 +29,12 @@ public class RecipeFragment extends Fragment implements RecipesAdapter.StepSelec
     private static final String SAVED_LAYOUT_MANAGER = "layout-manager-state";
     @BindView(R.id.frag_recipes_recycler_view)
     RecyclerView mRecyclerView;
+    FrameLayout mStepDetailContainer;
     private RecipesAdapter mRecipesAdapter;
     private BakingData mBakingData;
     private Parcelable onSavedInstanceState = null;
+
+    private boolean mTwoPane = false;
 
     public RecipeFragment() {
         // Required empty public constructor
@@ -66,18 +70,30 @@ public class RecipeFragment extends Fragment implements RecipesAdapter.StepSelec
                 mRecyclerView.getLayoutManager().onRestoreInstanceState(onSavedInstanceState);
             }
         }
+        mStepDetailContainer = view.findViewById(R.id.step_detail_container);
+        mTwoPane = mStepDetailContainer != null;
 
         return view;
     }
 
     @Override
     public void onStepSelected(Step step, int position) {
-        Intent recipeIntent = new Intent(getActivity().getApplicationContext(), StepDetailsActivity.class);
-        Bundle mBundle = new Bundle();
-        mBundle.putParcelable(BakingData.BAKINGDATA, mBakingData);
-        mBundle.putInt(Step.POSITION, position);
-        recipeIntent.putExtras(mBundle);
-        startActivity(recipeIntent);
+        if(!mTwoPane) {
+            Intent recipeIntent = new Intent(getActivity().getApplicationContext(), StepDetailsActivity.class);
+            Bundle mBundle = new Bundle();
+            mBundle.putParcelable(BakingData.BAKINGDATA, mBakingData);
+            mBundle.putInt(Step.POSITION, position);
+            recipeIntent.putExtras(mBundle);
+            startActivity(recipeIntent);
+        }else {
+            StepDetailsFragment stepDetailsFragment = new StepDetailsFragment();
+            Bundle arguments = new Bundle();
+            arguments.putParcelable(StepDetailsFragment.VAL, step);
+            stepDetailsFragment.setArguments(arguments);
+            getActivity().getSupportFragmentManager().beginTransaction()
+                    .replace(R.id.step_detail_container,stepDetailsFragment)
+                    .commit();
+        }
     }
 
 

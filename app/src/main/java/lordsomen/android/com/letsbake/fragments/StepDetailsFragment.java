@@ -59,6 +59,7 @@ public class StepDetailsFragment extends Fragment {
         return stepDetailsFragment;
     }
 
+
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -72,8 +73,10 @@ public class StepDetailsFragment extends Fragment {
                              @Nullable Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_step_details, container, false);
         ButterKnife.bind(this, rootView);
-        stepDescription.setText(stepData.getDescription());
-        videoUrl = stepData.getVideoURL();
+        if(null!= stepData) {
+            stepDescription.setText(stepData.getDescription());
+            videoUrl = stepData.getVideoURL();
+        }
         if (savedInstanceState != null) {
             startVideoPosition = savedInstanceState.getLong(SELECTED_POSITION);
             startVideoWindow = savedInstanceState.getInt(SELECTED_WINDOW);
@@ -166,6 +169,7 @@ public class StepDetailsFragment extends Fragment {
     @Override
     public void onSaveInstanceState(@NonNull Bundle outState) {
         super.onSaveInstanceState(outState);
+        updateStartPosition();
         outState.putLong(SELECTED_POSITION, startVideoPosition);
         outState.putInt(SELECTED_WINDOW, startVideoWindow);
     }
