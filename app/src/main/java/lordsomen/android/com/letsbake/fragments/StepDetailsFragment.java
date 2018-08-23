@@ -38,6 +38,7 @@ public class StepDetailsFragment extends Fragment {
     public static final String VAL = "val";
     private static final String SELECTED_POSITION = "video_position";
     private static final String SELECTED_WINDOW = "video_window";
+    private static final String PLAYER_READY = "is_player_ready";
     @BindView(R.id.fragment_step_playerView)
     public SimpleExoPlayerView stepPlayerView;
     @BindView(R.id.fragment_step_description)
@@ -47,6 +48,7 @@ public class StepDetailsFragment extends Fragment {
     private String videoUrl;
     private long startVideoPosition;
     private int startVideoWindow;
+    private boolean isPlayerReady = true;
 
 
     public static StepDetailsFragment init(Step step) {
@@ -80,14 +82,11 @@ public class StepDetailsFragment extends Fragment {
         if (savedInstanceState != null) {
             startVideoPosition = savedInstanceState.getLong(SELECTED_POSITION);
             startVideoWindow = savedInstanceState.getInt(SELECTED_WINDOW);
-
+            isPlayerReady = savedInstanceState.getBoolean(PLAYER_READY);
         }
-        if (videoUrl != null && !videoUrl.equals("")) {
-
-            initializePlayer(videoUrl);
-            stepPlayerView.setVisibility(View.VISIBLE);
-        } else {
+        if (videoUrl == null || videoUrl.equals("")){
             release_player();
+            stepPlayerView.setVisibility(View.GONE);
             ViewGroup.LayoutParams params = stepDescription.getLayoutParams();
             params.height = ViewGroup.LayoutParams.MATCH_PARENT;
             params.width = ViewGroup.LayoutParams.MATCH_PARENT;
@@ -131,6 +130,7 @@ public class StepDetailsFragment extends Fragment {
 
     private void updateStartPosition() {
         if (player != null) {
+            isPlayerReady = player.getPlayWhenReady();
             startVideoWindow = player.getCurrentWindowIndex();
             startVideoPosition = Math.max(0, player.getContentPosition());
         }
@@ -145,24 +145,24 @@ public class StepDetailsFragment extends Fragment {
     @Override
     public void onPause() {
         super.onPause();
-        if (player != null)
-            player.getPlayWhenReady();
         if (Util.SDK_INT <= 23) release_player();
     }
 
     @Override
     public void onStart() {
         super.onStart();
-        if (Util.SDK_INT > 23 && null != videoUrl && !videoUrl.equals("")) {
+        if (Util.SDK_INT > 23 && null != videoUrl && !videoUrl.equals("") && isPlayerReady) {
             initializePlayer(videoUrl);
+            stepPlayerView.setVisibility(View.VISIBLE);
         }
     }
 
     @Override
     public void onResume() {
         super.onResume();
-        if (Util.SDK_INT <= 23 && null != videoUrl && !videoUrl.equals("")) {
+        if (Util.SDK_INT <= 23 && null != videoUrl && !videoUrl.equals("") && isPlayerReady) {
             initializePlayer(videoUrl);
+            stepPlayerView.setVisibility(View.VISIBLE);
         }
     }
 
@@ -171,6 +171,7 @@ public class StepDetailsFragment extends Fragment {
     public void onSaveInstanceState(@NonNull Bundle outState) {
         super.onSaveInstanceState(outState);
         updateStartPosition();
+        outState.putBoolean(PLAYER_READY,isPlayerReady);
         outState.putLong(SELECTED_POSITION, startVideoPosition);
         outState.putInt(SELECTED_WINDOW, startVideoWindow);
     }
