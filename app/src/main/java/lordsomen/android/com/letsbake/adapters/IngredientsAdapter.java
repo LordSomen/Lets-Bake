@@ -23,33 +23,33 @@ public class IngredientsAdapter extends RecyclerView.Adapter<IngredientsAdapter.
     private Context mContext;
     private List<Ingredient> mIngredientList;
 
-    public IngredientsAdapter(Context context){
+    public IngredientsAdapter(Context context) {
         mContext = context;
     }
 
     @Override
     public IngredientsViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         return new IngredientsViewHolder(LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.ingredients_item,parent,false));
+                .inflate(R.layout.ingredients_item, parent, false));
     }
 
     @Override
     public void onBindViewHolder(IngredientsViewHolder holder, int position) {
         Ingredient ingredient = mIngredientList.get(position);
-        if(ingredient != null){
+        if (ingredient != null) {
             holder.ingredientsNameTextView.setText(ingredient.getIngredient());
             holder.ingredientsQuantityTextView
-                    .setText(ingredient.getQuantity() + ingredient.getMeasure());
+                    .setText(ingredient.getQuantity() + "  " + ingredient.getMeasure());
         }
     }
 
     @Override
     public int getItemCount() {
-        if(mIngredientList == null) return 0;
+        if (mIngredientList == null) return 0;
         else return mIngredientList.size();
     }
 
-    public void ifDataChanged(List<Ingredient> ingredientList){
+    public void ifDataChanged(List<Ingredient> ingredientList) {
         mIngredientList = ingredientList;
         notifyDataSetChanged();
     }
@@ -59,9 +59,10 @@ public class IngredientsAdapter extends RecyclerView.Adapter<IngredientsAdapter.
         TextView ingredientsNameTextView;
         @BindView(R.id.ingredients_quantity_textView)
         TextView ingredientsQuantityTextView;
+
         public IngredientsViewHolder(View itemView) {
             super(itemView);
-            ButterKnife.bind(this,itemView);
+            ButterKnife.bind(this, itemView);
         }
     }
 }

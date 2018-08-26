@@ -14,9 +14,20 @@ import java.util.List;
  */
 
 
-public class BakingData implements Parcelable{
+public class BakingData implements Parcelable {
 
     public static final String BAKINGDATA = "baking_data_key";
+    public static final Creator<BakingData> CREATOR = new Creator<BakingData>() {
+        @Override
+        public BakingData createFromParcel(Parcel in) {
+            return new BakingData(in);
+        }
+
+        @Override
+        public BakingData[] newArray(int size) {
+            return new BakingData[size];
+        }
+    };
     @SerializedName("id")
     private Integer id;
     @SerializedName("name")
@@ -34,7 +45,6 @@ public class BakingData implements Parcelable{
     @Expose
     private String image;
 
-
     protected BakingData(Parcel in) {
         if (in.readByte() == 0) {
             id = null;
@@ -50,21 +60,9 @@ public class BakingData implements Parcelable{
         image = in.readString();
         ingredients = new ArrayList<>();
         steps = new ArrayList<>();
-        in.readTypedList(getIngredients(),Ingredient.CREATOR);
-        in.readTypedList(getSteps(),Step.CREATOR);
+        in.readTypedList(getIngredients(), Ingredient.CREATOR);
+        in.readTypedList(getSteps(), Step.CREATOR);
     }
-
-    public static final Creator<BakingData> CREATOR = new Creator<BakingData>() {
-        @Override
-        public BakingData createFromParcel(Parcel in) {
-            return new BakingData(in);
-        }
-
-        @Override
-        public BakingData[] newArray(int size) {
-            return new BakingData[size];
-        }
-    };
 
     public Integer getId() {
         return id;

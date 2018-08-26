@@ -10,11 +10,21 @@ import com.google.gson.annotations.SerializedName;
  * Created by soumyajit on 9/3/18.
  */
 
-public class Step implements Parcelable{
+public class Step implements Parcelable {
 
     public static final String RECIPE_STEPS = "steps_details";
     public static final String POSITION = "step_position";
+    public static final Creator<Step> CREATOR = new Creator<Step>() {
+        @Override
+        public Step createFromParcel(Parcel in) {
+            return new Step(in);
+        }
 
+        @Override
+        public Step[] newArray(int size) {
+            return new Step[size];
+        }
+    };
     @SerializedName("id")
     @Expose
     private Integer id;
@@ -42,18 +52,6 @@ public class Step implements Parcelable{
         videoURL = in.readString();
         thumbnailURL = in.readString();
     }
-
-    public static final Creator<Step> CREATOR = new Creator<Step>() {
-        @Override
-        public Step createFromParcel(Parcel in) {
-            return new Step(in);
-        }
-
-        @Override
-        public Step[] newArray(int size) {
-            return new Step[size];
-        }
-    };
 
     public Integer getId() {
         return id;
